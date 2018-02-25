@@ -1,7 +1,7 @@
 resource "aws_cloudwatch_event_target" "build_upload_sns" {
   #target_id = ""
   rule = "${aws_cloudwatch_event_rule.build_upload_event.id}"
-  arn  = "${aws_sns_topic.notify_exol_build_uploads.arn}"
+  arn  = "${aws_sns_topic.notify_build_uploads.arn}"
 
   input_transformer {
     input_paths = {
@@ -49,7 +49,7 @@ resource "aws_cloudwatch_event_target" "trigger_codebuild" {
 
 resource "aws_cloudwatch_event_rule" "build_upload_event" {
   name        = "${var.name_prefix}-build-upload-events"
-  description = "Capture all ExOL build upload events"
+  description = "Capture all build upload events"
 
   event_pattern = <<PATTERN
 {
@@ -76,6 +76,6 @@ resource "aws_cloudwatch_event_rule" "build_upload_event" {
 PATTERN
 }
 
-resource "aws_sns_topic" "notify_exol_build_uploads" {
+resource "aws_sns_topic" "notify_build_uploads" {
   name = "${var.name_prefix}-build-upload-notify"
 }
