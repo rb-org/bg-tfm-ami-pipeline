@@ -1,0 +1,121 @@
+version: 2
+jobs:
+  lint:
+    docker:
+      - image: hashicorp/terraform:light
+    steps:
+      - checkout
+      - run:
+          name: tfm_fmt
+          command: |
+            lint_failed="no"
+            for file in $(find . -name "*tf")
+            do
+              lines=$(terraform fmt -write=false -list=true ${file} | wc -l | sed 's/[^0-9]//g')
+              if [ ${lines} != "0" ]
+              then
+                echo "Please run terraform fmt ${file}"
+                lint_failed="yes"
+              fi
+            done
+            if [ ${lint_failed} != "no" ]; then exit 1; fi
+  validate: 
+    docker:
+      - image: hashicorp/terraform:light
+    environment: 
+      - WKSPC: "xxx"
+    steps:
+      - add_ssh_keys
+      - checkout
+      - run: 
+          name: init
+          command: |
+            terraform init -input=false
+            if [ $? != "0" ]; then exit $?; fi
+      - run: 
+          name: select_workspace
+          command: |
+            terraform workspace select $WKSPC
+            get_wkspc=$(terraform workspace show)
+            echo $get_wkspc
+            if [ $get_wkspc != $WKSPC ]; then exit 1; fi
+      - run: 
+          name: tflint
+          command: |
+            apk add --update openssl
+            wget https://github.com/wata727/tflint/releases/download/v0.5.4/tflint_linux_amd64.zip
+            unzip tflint_linux_amd64.zip
+            mkdir -p /usr/local/tflint/bin
+            export PATH=/usr/local/tflint/bin:$PATH
+            install tflint /usr/local/tflint/bin
+            # tflint --var-file=env/${WKSPC}.tfvars --error-with-issues
+      - run:
+          name: validate
+          command: |
+            validate_failed="no"
+            TF_DIRS=$(find $(pwd) -type f -iname "*.tf*" -exec dirname '{}' \; | grep -v ".terraform" | sort | uniq | xargs echo)
+            for DIR in $TF_DIRS
+            do
+              echo Processing $DIR
+              lines=$(terraform validate -input=false -check-variables=false -no-color $DIR -var-file=env/${WKSPC}.tfvars| wc -l | sed 's/[^0-9]//g')
+              if [ ${lines} != "0" ]
+              then
+                echo "Please run terraform validate ${file}"
+                validate_failed="yes"
+              fi
+            done
+            if [ ${validate_failed} != "no" ]; then exit 1; fi
+  plan:
+    docker:
+      - image: hashicorp/terraform:light
+    environment: 
+      - WKSPC: "xxx"
+    steps:
+      - add_ssh_keys
+      - checkout
+      - run: mkdir -p plans
+      - run: terraform init -input=false
+      - run: terraform workspace select $WKSPC
+      - run: terraform plan -var-file=env/${WKSPC}.tfvars -var acc_id=${acc_id} -no-color -input=false -out=plans/tfm.plan
+      - persist_to_workspace:
+          root: plans
+          paths:
+            - tfm.plan
+  apply:
+    docker:
+      - image: hashicorp/terraform:light
+    environment: 
+      - WKSPC: "xxx"
+    steps:
+      - add_ssh_keys
+      - checkout
+      - run: mkdir -p plans
+      - run: terraform init -input=false
+      - run: terraform workspace select $WKSPC      
+      - attach_workspace:
+          at: plans
+      - run: terraform apply -no-color -input=false -auto-approve plans/tfm.plan
+workflows:
+  version: 2
+  test_plan_apply:
+    jobs:
+      - lint         
+      - validate:
+          requires: 
+            - lint            
+      - plan:
+          requires: 
+            - validate            
+      - hold:
+          type: approval
+          requires:
+           - plan       
+          filters:
+            branches:
+             ignore: master
+      - apply:
+          requires: 
+            - hold
+          filters:
+            branches:
+             ignore: master
