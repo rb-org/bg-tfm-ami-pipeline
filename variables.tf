@@ -26,7 +26,7 @@ variable "key_name" {
 }
 
 variable "pckr_source" {
-  default = "https://github.com/rb-org/bg-tfm-ec2.git"
+  default = "https://github.com/rb-org/bg-tfm-ec2"
 }
 
 variable "dev_wkspc" {

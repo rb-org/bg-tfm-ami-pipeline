@@ -92,11 +92,13 @@ resource "aws_codebuild_project" "build_ami_ws" {
     type      = "GITHUB"
     buildspec = "buildspec-ami.yml"
     location  = "${var.pckr_source}"
-
+    /*
     auth {
       "type"     = "OAUTH"
       "resource" = "${var.oauth_token}"
     }
+
+    */
   }
 
   tags = "${merge(var.default_tags, 
