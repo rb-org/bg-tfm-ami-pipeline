@@ -95,8 +95,7 @@ resource "aws_codebuild_project" "build_ami_ws" {
 
     auth {
       "type" = "OAUTH"
-
-      # "resource" = "${var.oauth_token}"
+      "resource" = "${var.oauth_token}"
     }
   }
 
