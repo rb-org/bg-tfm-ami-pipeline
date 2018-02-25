@@ -94,7 +94,7 @@ resource "aws_codebuild_project" "build_ami_ws" {
     location  = "${var.pckr_source}"
 
     auth {
-      "type" = "OAUTH"
+      "type"     = "OAUTH"
       "resource" = "${var.oauth_token}"
     }
   }
