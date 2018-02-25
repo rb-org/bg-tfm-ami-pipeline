@@ -92,6 +92,7 @@ resource "aws_codebuild_project" "build_ami_ws" {
     type      = "GITHUB"
     buildspec = "buildspec-ami.yml"
     location  = "${var.pckr_source}"
+
     /*
     auth {
       "type"     = "OAUTH"
