@@ -37,8 +37,11 @@ module "logging" {
   source = "./logging"
 
   name_prefix            = "${var.name_prefix}"
+  environment            = "${var.environment}"
   build_artifacts_id     = "${data.terraform_remote_state.common.build_artifacts_id}"
+  build_artifacts_arn    = "${data.terraform_remote_state.common.build_artifacts_arn}"
   cloudtrail_logs_id     = "${data.terraform_remote_state.common.cloudtrail_logs_id}"
   ami_codebuild_role_arn = "${module.codebuild.ami_codebuild_role_arn}"
   codebuild_prj_arn      = "${module.codebuild.ami_ws_cbld_proj_id}"
+  default_tags           = "${var.default_tags}"
 }
