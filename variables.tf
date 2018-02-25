@@ -25,10 +25,6 @@ variable "key_name" {
   default = "bg-pckr-euw"
 }
 
-variable "allowed_ips" {
-  type = "list"
-}
-
 variable "pckr_source" {
   default = "https://github.com/rb-org/bg-tfm-ec2.git"
 }
