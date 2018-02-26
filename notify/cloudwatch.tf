@@ -9,9 +9,7 @@ resource "aws_cloudwatch_event_target" "build_upload_sns" {
     }
 
     input_template = <<TEMPLATE
-    {
-        "Build artifact" <key> "has been uploaded. Kicking off packer to build a new AMI"
-    }
+    {"Build artifact <key> has been uploaded. Kicking off packer to build a new AMI"}
     TEMPLATE
   }
 }
