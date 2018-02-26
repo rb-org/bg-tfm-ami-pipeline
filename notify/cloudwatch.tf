@@ -72,4 +72,3 @@ PATTERN
 resource "aws_sns_topic" "notify_build_uploads" {
   name = "${var.name_prefix}-build-upload-notify"
 }
-
