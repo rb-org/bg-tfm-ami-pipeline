@@ -10,3 +10,5 @@ variable "default_tags" {
 
 variable "environment" {}
 variable "build_artifacts_arn" {}
+variable "slack_webhook" {}
+variable "acc_id" {}

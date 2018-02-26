@@ -32,3 +32,5 @@ variable "pckr_source" {
 variable "dev_wkspc" {
   default = "d202"
 }
+
+variable "slack_webhook" {}

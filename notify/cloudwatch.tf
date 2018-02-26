@@ -10,14 +10,7 @@ resource "aws_cloudwatch_event_target" "build_upload_sns" {
 
     input_template = <<TEMPLATE
     {
-        "detail-type": "AWS API Call via CloudTrail",
-        "source": "aws.s3",
-        "region": "eu-west-1",
-        "detail": {
-          "requestParameters": {
-            "key": <key>
-          }
-        }
+        "Build artifact <key> has been uploaded. Kicking off packer to build a new AMI"
     }
     TEMPLATE
   }
@@ -79,3 +72,4 @@ PATTERN
 resource "aws_sns_topic" "notify_build_uploads" {
   name = "${var.name_prefix}-build-upload-notify"
 }
+
