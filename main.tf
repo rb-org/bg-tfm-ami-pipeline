@@ -33,8 +33,8 @@ module "codebuild" {
   default_tags     = "${var.default_tags}"
 }
 
-module "logging" {
-  source = "./logging"
+module "notify" {
+  source = "./notify"
 
   name_prefix            = "${var.name_prefix}"
   environment            = "${var.environment}"
@@ -44,4 +44,6 @@ module "logging" {
   ami_codebuild_role_arn = "${module.codebuild.ami_codebuild_role_arn}"
   codebuild_prj_arn      = "${module.codebuild.ami_ws_cbld_proj_id}"
   default_tags           = "${var.default_tags}"
+  slack_webhook          = "${var.slack_webhook}"
+  acc_id                 = "${var.acc_id}"
 }
