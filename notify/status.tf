@@ -1,5 +1,5 @@
 // Codebuild
-/*
+
 // Lambda function for sending codebuild status via Cloudwatch to Slack
 resource "aws_lambda_function" "codebuild_lambda" {
   filename      = "./lambda/release.zip"
