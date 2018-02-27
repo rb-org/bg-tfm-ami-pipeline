@@ -181,7 +181,7 @@ resource "aws_iam_policy_attachment" "ssm_s3_policy_attachment" {
   policy_arn = "${aws_iam_policy.ssm_s3_policy.arn}"
   roles      = ["${aws_iam_role.codebuild_role.id}"]
 }
-
+/*
 // Lambda send to slack
 
 resource "aws_iam_role" "lambda_slack_role" {
@@ -224,3 +224,4 @@ resource "aws_iam_role_policy" "lambda_slack_policy" {
 }
 EOF
 }
+*/
