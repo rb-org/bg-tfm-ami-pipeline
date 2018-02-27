@@ -17,7 +17,6 @@ resource "aws_lambda_function" "codebuild_lambda" {
     }
   }
 }
-
 /*
 resource "aws_lambda_permission" "cdb_allow_cloudwatch" {
   statement_id   = "AllowExecutionFromCloudWatch"
