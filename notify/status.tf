@@ -2,11 +2,13 @@
 
 // Lambda function for sending codebuild status via Cloudwatch to Slack
 resource "aws_lambda_function" "codebuild_lambda" {
-  filename         = "./lambda/slack.js.zip"
-  function_name    = "${var.name_prefix}-cdb-status"
-  role             = "${aws_iam_role.lambda_slack_role.arn}"
-  handler          = "slack.handler"
-  source_code_hash = "${base64sha256(file("./lambda/slack.js.zip"))}"
+  filename      = "./lambda/release.zip"
+  function_name = "${var.name_prefix}-cdb-status"
+
+  #role             = "${aws_iam_role.slack_lambda_role.arn}"
+  role             = "${module.slack_lambda_role.role_arn}"
+  handler          = "src/index.handler"
+  source_code_hash = "${base64sha256(file("./lambda/release.zip"))}"
   runtime          = "nodejs6.10"
 
   environment {
