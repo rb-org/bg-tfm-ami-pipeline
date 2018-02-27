@@ -1,3 +1,19 @@
+// Lambda role
+
+module "slack_lambda_role" {
+  source = "git@github.com:rb-org/terraform-aws-iam-misc//service_role"
+
+  name                  = "${var.name_prefix}-lambda-slack-role"
+  principal_identifiers = ["lambda.amazonaws.com"]
+  principal_type        = "Service"
+
+  managed_policy_arns = [
+    "arn:aws:iam::aws:policy/CloudWatchReadOnlyAccess",
+    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+  ]
+}
+
+/*
 // Lambda send to slack
 
 resource "aws_iam_role" "lambda_slack_role" {
