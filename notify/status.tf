@@ -27,7 +27,7 @@ resource "aws_lambda_permission" "cdb_allow_cloudwatch" {
   source_account = "${var.acc_id}"
   source_arn     = "${aws_cloudwatch_event_rule.build_event_rule.arn}"
 }
-*/
+
 // Cloudwatch event for Codebuild status 
 resource "aws_cloudwatch_event_rule" "build_event_rule" {
   name        = "${var.name_prefix}-cdb-status"
@@ -60,3 +60,4 @@ resource "aws_cloudwatch_event_target" "build_lambda_func" {
   target_id = "${var.name_prefix}-cdb-status"
   arn       = "${aws_lambda_function.codebuild_lambda.arn}"
 }
+*/
