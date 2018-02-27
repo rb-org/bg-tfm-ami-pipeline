@@ -14,6 +14,22 @@ resource "aws_cloudwatch_event_target" "build_upload_sns" {
   }
 }
 
+resource "aws_cloudwatch_event_target" "build_upload_lambda" {
+  #target_id = ""
+  rule = "${aws_cloudwatch_event_rule.build_upload_event.id}"
+  arn  = "${aws_lambda_function.codebuild_lambda.arn}"
+
+  input_transformer {
+    input_paths = {
+      key = "$.detail.requestParameters.key"
+    }
+
+    input_template = <<TEMPLATE
+      "Build artifact <key> has been uploaded. Kicking off packer to build a new AMI"
+    TEMPLATE
+  }
+}
+
 resource "aws_cloudwatch_event_target" "trigger_codebuild" {
   #target_id = ""
   rule     = "${aws_cloudwatch_event_rule.build_upload_event.id}"
