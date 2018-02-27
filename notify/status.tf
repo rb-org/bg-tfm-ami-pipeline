@@ -17,7 +17,7 @@ resource "aws_lambda_function" "codebuild_lambda" {
     }
   }
 }
-
+/*
 resource "aws_lambda_permission" "cdb_allow_cloudwatch" {
   statement_id   = "AllowExecutionFromCloudWatch"
   action         = "lambda:InvokeFunction"
@@ -26,7 +26,7 @@ resource "aws_lambda_permission" "cdb_allow_cloudwatch" {
   source_account = "${var.acc_id}"
   source_arn     = "${aws_cloudwatch_event_rule.build_event_rule.arn}"
 }
-
+*/
 // Cloudwatch event for Codebuild status 
 resource "aws_cloudwatch_event_rule" "build_event_rule" {
   name        = "${var.name_prefix}-cdb-status"
