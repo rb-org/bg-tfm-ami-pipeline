@@ -5,7 +5,7 @@ data "aws_region" "current" {}
 resource "aws_codebuild_project" "build_ami_ws" {
   name          = "${var.name_prefix}-build-ami-ws"
   description   = "AMI Creation Pipeline - Web Server"
-  build_timeout = "15"
+  build_timeout = "30"
   service_role  = "${aws_iam_role.codebuild_role.arn}"
 
   artifacts {
