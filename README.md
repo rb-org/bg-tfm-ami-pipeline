@@ -25,7 +25,7 @@ These branch names are used in the CircleCI config.yml.
 
 For local builds a "secret.tfvars" file is used. Contains the acc_id variable:
 
-acc_id = "1234567890"
+    acc_id = "1234567890"
 
 Should be populated with the AWS account id that will be hosting the resources.
 
@@ -34,9 +34,12 @@ The scripts expect the "deployable" code zip file to be named "Build_Release_201
 ## Setup
 
 CircleCI is used to test and run the Terraform plans.
+
 Each repo needs a CircleCI project with Github user account that has sufficient rights to the repository.
+
 All CircleCI builds are configured to run only on creation of a PR (Build Settings\Adcanced Settings)
-An IAM user account with Admin privileges is required by CircleCI (this is created by the bg-tfm-common  plan)
+
+An IAM user account with Admin privileges is required by CircleCI (this is created by the bg-tfm-common plan)
 
 Not all repos require branches. For those that do, the should be named as above.
 
