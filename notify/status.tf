@@ -10,6 +10,7 @@ resource "aws_lambda_function" "codebuild_lambda" {
   handler          = "src/index.handler"
   source_code_hash = "${base64sha256(file("./lambda/release.zip"))}"
   runtime          = "nodejs6.10"
+  timeout          = 10
 
   environment {
     variables = {
