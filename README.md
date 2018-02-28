@@ -43,3 +43,8 @@ An IAM user account with Admin privileges is required by CircleCI (this is creat
 
 Not all repos require branches. For those that do, the should be named as above.
 
+## Lambda function
+
+There's a great Lambda function to send all sorts of events to Slack on [github](https://github.com/arabold/aws-to-slack)
+
+The cloudformation has been reworked into Terraform but the lamdba code is unchanged from the source.
