@@ -19,7 +19,6 @@ resource "aws_lambda_function" "codebuild_lambda" {
   }
 }
 
-/*
 resource "aws_lambda_permission" "cdb_allow_cloudwatch" {
   statement_id   = "AllowExecutionFromCloudWatch"
   action         = "lambda:InvokeFunction"
@@ -43,15 +42,7 @@ resource "aws_cloudwatch_event_rule" "build_event_rule" {
   ],
   "detail-type": [
     "CodeBuild Build State Change"
-  ],
-  "detail": {
-    "build-status": [
-      "FAILED",
-      "IN_PROGRESS",
-      "STOPPED",
-      "SUCCEEDED"
-    ]
-  }
+  ]
 }
 PATTERN
 }
@@ -61,5 +52,3 @@ resource "aws_cloudwatch_event_target" "build_lambda_func" {
   target_id = "${var.name_prefix}-cdb-status"
   arn       = "${aws_lambda_function.codebuild_lambda.arn}"
 }
-*/
-

@@ -18,7 +18,6 @@ resource "aws_cloudwatch_event_target" "build_upload_lambda" {
   #target_id = ""
   rule = "${aws_cloudwatch_event_rule.build_upload_event.id}"
   arn  = "${aws_lambda_function.codebuild_lambda.arn}"
-  role_arn = "${aws_iam_role.cloudwatch_lambda_role.arn}"
 
   input_transformer {
     input_paths = {
