@@ -57,9 +57,9 @@ resource "aws_iam_role_policy" "lambda_slack_policy" {
 }
 EOF
 }
-
+*/
 // Cloudwatch invoke lambda
-/*
+
 resource "aws_iam_role" "cloudwatch_lambda_role" {
   name = "${var.name_prefix}-cdb-cw-lambda"
 
@@ -100,6 +100,3 @@ resource "aws_iam_role_policy" "cloudwatch_lambda_policy" {
 }
 EOF
 }
-
-*/
-
