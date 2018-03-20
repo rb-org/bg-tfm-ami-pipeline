@@ -33,13 +33,6 @@ jobs:
             terraform init -input=false
             if [ $? != "0" ]; then exit $?; fi
       - run: 
-          name: select_workspace
-          command: |
-            terraform workspace select $WKSPC
-            get_wkspc=$(terraform workspace show)
-            echo $get_wkspc
-            if [ $get_wkspc != $WKSPC ]; then exit 1; fi
-      - run: 
           name: tflint
           command: |
             apk add --update openssl
