@@ -22,7 +22,7 @@ module "codebuild" {
   vpc_id           = "${data.terraform_remote_state.network.vpc_id}"
   subnet_id        = "${data.terraform_remote_state.network.public_subnet_ids[0]}"
   copy_to_region   = "eu-west-1"                                                     # Multiple regions - "eu-central-1,eu-west-1"
-  ec2_profile      = "${data.terraform_remote_state.ec2.default_profile_name}"
+  ec2_profile      = "${module.packer.pckr_profile_name}"
   pckr_sg          = "${module.packer.sg_id}"
   pckr_source      = "${var.pckr_source}"
   codebuild_s3_arn = "${data.terraform_remote_state.common.codebuild_artifacts_arn}"

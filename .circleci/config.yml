@@ -75,7 +75,6 @@ jobs:
       - checkout
       - run: mkdir -p plans
       - run: terraform init -input=false
-      - run: terraform workspace select $WKSPC
       - run: terraform plan -var-file=env/${WKSPC}.tfvars -var acc_id=${acc_id} -var slack_webhook=${slack_webhook} -no-color -input=false -out=plans/tfm.plan
       - persist_to_workspace:
           root: plans
@@ -90,8 +89,7 @@ jobs:
       - add_ssh_keys
       - checkout
       - run: mkdir -p plans
-      - run: terraform init -input=false
-      - run: terraform workspace select $WKSPC      
+      - run: terraform init -input=false    
       - attach_workspace:
           at: plans
       - run: terraform apply -no-color -input=false -auto-approve plans/tfm.plan
@@ -112,10 +110,10 @@ workflows:
            - plan       
           filters:
             branches:
-             ignore: master
+             only: master
       - apply:
           requires: 
             - hold
           filters:
             branches:
-             ignore: master
+             only: master
