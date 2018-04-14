@@ -14,6 +14,28 @@ module "slack_lambda_role" {
   ]
 }
 
+// Lambda XRay Tracing Policy
+resource "aws_iam_role_policy" "lambda_xray_policy" {
+  name = "${var.name_prefix}-lambda-xray-policy"
+  role = "${module.slack_lambda_role.role_id}"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": {
+        "Effect": "Allow",
+        "Action": [
+            "xray:PutTraceSegments",
+            "xray:PutTelemetryRecords"
+        ],
+        "Resource": [
+            "*"
+        ]
+    }
+}
+EOF
+}
+
 /*
 // Lambda send to slack
 

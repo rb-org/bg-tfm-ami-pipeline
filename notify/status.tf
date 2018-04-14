@@ -17,6 +17,10 @@ resource "aws_lambda_function" "codebuild_lambda" {
       SLACK_HOOK_URL = "${var.slack_webhook}"
     }
   }
+
+  tracing_config {
+    mode = "Active"
+  }
 }
 
 resource "aws_lambda_permission" "cdb_allow_cloudwatch" {
@@ -42,7 +46,15 @@ resource "aws_cloudwatch_event_rule" "build_event_rule" {
   ],
   "detail-type": [
     "CodeBuild Build State Change"
-  ]
+  ],
+  "detail": {
+    "build-status": [
+      "FAILED",
+      "STOPPED",
+      "IN_PROGRESS",
+      "SUCCEEDED"
+    ]
+  }
 }
 PATTERN
 }
