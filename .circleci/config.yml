@@ -103,10 +103,10 @@ workflows:
            - plan       
           filters:
             branches:
-             only: master
+             ignore: master
       - apply:
           requires: 
             - hold
           filters:
             branches:
-             only: master
+             ignore: master
