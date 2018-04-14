@@ -14,7 +14,6 @@ resource "aws_cloudwatch_event_target" "build_upload_sns" {
   }
 }
 
-/*
 resource "aws_cloudwatch_event_target" "build_upload_lambda" {
   #target_id = ""
   rule = "${aws_cloudwatch_event_rule.build_upload_event.id}"
@@ -30,7 +29,6 @@ resource "aws_cloudwatch_event_target" "build_upload_lambda" {
     TEMPLATE
   }
 }
-*/
 
 resource "aws_cloudwatch_event_target" "trigger_codebuild" {
   #target_id = ""
