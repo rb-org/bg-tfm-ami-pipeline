@@ -1,7 +1,7 @@
 // Codebuild
 
 // Lambda function for sending codebuild status via Cloudwatch to Slack
-resource "aws_lambda_function" "upload_lambda" {
+resource "aws_lambda_function" "build_upload_lambda" {
   filename      = "./lambda/release.zip"
   function_name = "${var.name_prefix}-build-upload"
 
@@ -23,36 +23,11 @@ resource "aws_lambda_function" "upload_lambda" {
   }
 }
 
-resource "aws_lambda_permission" "cdb_allow_cloudwatch_upload" {
+resource "aws_lambda_permission" "build_upload_lambda_perms" {
   statement_id   = "AllowExecutionFromCloudWatch"
   action         = "lambda:InvokeFunction"
-  function_name  = "${aws_lambda_function.upload_lambda.function_name}"
+  function_name  = "${aws_lambda_function.build_upload_lambda.function_name}"
   principal      = "events.amazonaws.com"
   source_account = "${var.acc_id}"
-  source_arn     = "${aws_cloudwatch_event_rule.build_event_rule_upload.arn}"
-}
-
-// Cloudwatch event for Codebuild status 
-resource "aws_cloudwatch_event_rule" "build_event_rule_upload" {
-  name        = "${var.name_prefix}-build-upload"
-  description = "CodeBuild Build State Change"
-
-  # role_arn    = "${aws_iam_role.cloudwatch_lambda_role.arn}"
-
-  event_pattern = <<PATTERN
-{
-  "source": [
-    "aws.codebuild"
-  ],
-  "detail-type": [
-    "CodeBuild Build State Change"
-  ]
-}
-PATTERN
-}
-
-resource "aws_cloudwatch_event_target" "build_lambda_func_upload" {
-  rule      = "${aws_cloudwatch_event_rule.build_event_rule_upload.name}"
-  target_id = "${var.name_prefix}-cdb-statusbuild-upload"
-  arn       = "${aws_lambda_function.upload_lambda.arn}"
+  source_arn     = "${aws_cloudwatch_event_rule.build_upload_event.arn}"
 }
