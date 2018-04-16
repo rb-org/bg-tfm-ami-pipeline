@@ -29,5 +29,5 @@ resource "aws_lambda_permission" "build_upload_lambda_perms" {
   function_name  = "${aws_lambda_function.build_upload_lambda.function_name}"
   principal      = "events.amazonaws.com"
   source_account = "${var.acc_id}"
-  source_arn     = "${aws_cloudwatch_event_rule.build_event_rule_upload.arn}"
+  source_arn     = "${aws_cloudwatch_event_rule.build_upload_event.arn}"
 }
