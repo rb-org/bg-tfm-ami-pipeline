@@ -23,7 +23,7 @@ resource "aws_lambda_function" "codebuild_lambda" {
   }
 }
 
-resource "aws_lambda_permission" "cdb_allow_cloudwatch" {
+resource "aws_lambda_permission" "codebuild_lambda_perms" {
   statement_id   = "AllowExecutionFromCloudWatch"
   action         = "lambda:InvokeFunction"
   function_name  = "${aws_lambda_function.codebuild_lambda.function_name}"
